@@ -86,8 +86,12 @@ function PieChart({ chartData }) {
 
     const chartOptions = {
         scales: {
-            y: {
-                beginAtZero: true
+            yAxes: {
+                ticks: {
+                    min: 0,
+                    max: 80000,
+                    stepSize: 200
+                }
             }
         }
     };
