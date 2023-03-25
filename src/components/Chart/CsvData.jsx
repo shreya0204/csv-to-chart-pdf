@@ -1,12 +1,18 @@
 import React from "react";
 import Papa from "papaparse";
 import { useState } from "react";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import PieChart from './PieChart'
 
+Chart.register(CategoryScale);
 
 const CsvData = () => {
+
     const [data, setData] = useState([]);
     const [column, setColumn] = useState([]);
     const [values, setValues] = useState([]);
+    // const [chartData, setChartData] = useState({});
 
 
     const handleFile = (event) => {
@@ -28,45 +34,30 @@ const CsvData = () => {
                 setColumn(columnArray[0]);
                 setValues(valuesArray);
 
-                // here the whole data is coming in array 
+                console.log(typeof result.data);
                 console.log(result.data)
             },
         });
     };
 
     return (
-        <div>
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center'
+        }}>
             <input type="file" name="file" accept=".csv"
                 style={{
                     display: "block",
                     margin: "10px auto "
+
                 }}
                 onChange={handleFile}
             />
-            <br />
 
-            <table style={{ borderCollapse: "collapse", border: "1px solid black", margin: "5px auto" }}>
-                <thead>
-                    <tr>
-                        {column.map((col, i) => {
-                            return (
-                                <th key={i}>{col}</th>
-                            )
-                        })}
-                    </tr>
-                </thead>
-                {values.map((val, i) => {
-                    return (
-                        <tr key={i}>
-                            {val.map((v, j) => {
-                                return (
-                                    <td key={j}>{v}</td>
-                                )
-                            })}
-                        </tr>
-                    )
-                })}
-            </table>
+            <br />
+            <PieChart chartData={data} />
         </div>
     );
 }
